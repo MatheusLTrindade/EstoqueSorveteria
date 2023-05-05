@@ -31,8 +31,8 @@ public class Estoque {
 
     }
 
-    public void addItem(int id, String description, Categoria category, int amount, float price){
-        Item item = new Item(id, description, category, amount, price);
+    public void addItem(Integer id, String description, Categoria category, int amount, float price){
+        Item item = new Item(id, description, category, amount, price);        
         itens.add(item);
     }
 
@@ -73,9 +73,19 @@ public class Estoque {
     }
 
     public void listarEstoque(){
-        for(Item item: this.itens){
-            System.out.println(item);
-        }
+        System.out.println();
+        if(this.itens.size() != 0){
+            for(Item item: this.itens){
+                System.out.println(item);
+            }
+        } else {
+            System.out.println("Estoque Vazio");
+        } 
+    }
+
+    public void alteraQuantidade(int id, int amount){
+        Item item = getItemById(id);
+        item.setQuantidade(amount);
     }
 
 }

@@ -1,12 +1,12 @@
 public class Item{
 
-    private int codItem;
+    private Integer codItem;
     private String descricaoItem;
     private Categoria categoria;
-    private int quantidade;
+    private Integer quantidade;
     private float valor;
 
-    public Item(int codItem, String descricaoItem, Categoria categoria, int quantidade, float valor){
+    public Item(int codItem, String descricaoItem, Categoria categoria, Integer quantidade, float valor){
         this.codItem = codItem;
         this.categoria = categoria;
         this.quantidade = quantidade;
@@ -18,7 +18,7 @@ public class Item{
         return codItem;
     }
 
-    public void setCodItem(int codItem) {
+    public void setCodItem(Integer codItem) {
         this.codItem = codItem;
     }
 
@@ -42,7 +42,7 @@ public class Item{
         return quantidade;
     }
 
-    public void setQuantidade(int quantidade) {
+    public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
     }
 
@@ -96,11 +96,41 @@ public class Item{
 @Override
 public String toString() {
     String strBuilder = "";
-    strBuilder += " " + this.getCodItem() + " ";
-    strBuilder += " " + this.getDescricaoItem() + " ";
-    strBuilder += " " + this.getQuantidade() + " ";
-    strBuilder += " " + this.getCategoria().getDescricao() + " ";
-    strBuilder += " " + this.getValor() + " ";
+
+    // formatar 
+    
+    int espacamentoString = 20;
+    int espacamentoNumero = 6;
+
+    strBuilder += " " + this.getCodItem() + getTamanhoString(espacamentoNumero, espacamentoNumero);
+    strBuilder += " " + this.getDescricaoItem() + getTamanhoString(espacamentoString, getDescricaoItem());
+    strBuilder += " " + this.getQuantidade() + getTamanhoString(espacamentoNumero, espacamentoNumero);
+    strBuilder += " " + this.getCategoria().getDescricao() + getTamanhoString(espacamentoString, this.getCategoria().getDescricao());
+    strBuilder += " " + this.getValor() + getTamanhoString(espacamentoString, espacamentoString);
     return strBuilder;
 }
+
+public String getTamanhoString(int tamanhoDesejado, Object valor){
+
+    String strBuilder = "";
+
+    if (valor instanceof Integer){
+        int tamanho = (Integer) valor;
+        for (int index = 0; index < tamanho; index++) {
+            strBuilder += " ";
+        }
+        return strBuilder;
+    }else{
+        String novoValor = (String) valor; 
+        int tamanho = tamanhoDesejado - novoValor.length();
+        for (int index = 0; index < tamanho; index++) {
+            strBuilder += " ";
+        }
+        return strBuilder;
+    }
+
+
+    
+}
+
 }

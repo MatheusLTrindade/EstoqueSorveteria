@@ -55,7 +55,6 @@ public class Categoria {
         strBuilder += " " + this.getId(); 
         strBuilder += " " + this.getDescricao(); 
         return strBuilder;
-
     }
     
 }

@@ -17,6 +17,7 @@ public class Menu {
                 "(2) Remover produto \n" +
                 "(3) Exibir estoque\n" + 
                 "(4) Buscar item\n" +
+                "(5) Alterar quantidade\n" +
                 "(0) Sair"
             );
             num = sc.nextInt();
@@ -26,23 +27,40 @@ public class Menu {
                     option = false;
                     break;
                 case 1:
-                    System.out.println("\nDigite o codigo: ");
-                    int id = sc.nextInt();
-                    System.out.println("\nDigite a descrição do produto: ");
-                    String description = sc.nextLine();
-                    estoque.showCategorias();
-                    Categoria category = estoque.getCategoriaById(sc.nextInt());
-                    System.out.println("\nDigite a quantidade: ");
-                    int amount = sc.nextInt();
-                    System.out.println("\nDigite o preço: ");
-                    float price = sc.nextFloat();
-                    estoque.addItem(id, description, category, amount, price);
+                    try {
+                        System.out.println("\nDigite o codigo: ");
+                        int id = sc.nextInt();
+                        if (estoque.getItemById(id) != null) {
+                                throw new RuntimeException();
+                            }
+                        System.out.println("\nDigite a descrição do produto: ");
+                        sc.nextLine();
+                        String description = sc.nextLine();
+                        System.out.println(" ");
+                        estoque.showCategorias();
+                        Categoria category = estoque.getCategoriaById(sc.nextInt());
+                        System.out.println("\nDigite a quantidade: ");
+                        int amount = sc.nextInt();
+                        System.out.println("\nDigite o preço: ");
+                        float price = sc.nextFloat();
+                        estoque.addItem(id, description, category, amount, price);
+                    } catch (Exception e) {
+                        System.out.println("O código já está cadastrado no sistema.\nTente novamente.");
+                    }
                     option = true;
                     break;
                 case 2:
-                    System.out.println("\nDigite o codigo do produto: ");
-                    Item itemRemove = estoque.getItemById(sc.nextInt());
-                    estoque.removeItem(itemRemove);
+                    try {
+                        System.out.println("\nDigite o codigo do produto: ");
+                        Item itemRemove = estoque.getItemById(sc.nextInt());
+                        if (itemRemove == null) {
+                            throw new RuntimeException();
+                        }
+                        estoque.removeItem(itemRemove);
+                        System.out.println("\nItem removido");
+                    } catch (Exception e) {
+                        System.out.println("O código não localizado.\nTente novamente.");
+                    }
                     option = true;
                     break;
                 case 3:
@@ -50,10 +68,35 @@ public class Menu {
                     option = true;
                     break;
                 case 4:
-                    System.out.println("\nDigite o codigo do produto: ");
-                    int id_ = sc.nextInt();
-                    Item item = estoque.getItemById(id_);
-                    System.out.println(item);
+                    try {
+                        System.out.println("\nDigite o codigo do produto: ");
+                        int id_busca = sc.nextInt();
+                        System.out.println();
+                        Item item = estoque.getItemById(id_busca);
+                        if (item == null) {
+                            throw new RuntimeException();
+                        }
+                        System.out.println(item);
+                    } catch (Exception e) {
+                        System.out.println("Código não localizado.\nTente novamente.");
+                    }
+                    
+                    option = true;
+                    break;
+                case 5:
+                    try {
+                        System.out.println("\nDigite o codigo do produto: ");
+                        int id_altera = sc.nextInt();
+                        if (estoque.getItemById(id_altera) == null) {
+                                throw new RuntimeException();
+                            }  
+                        System.out.println("\nDigite a nova quantidade: ");
+                        int new_amount = sc.nextInt();
+                        estoque.alteraQuantidade(id_altera, new_amount);
+                        System.out.println("\nQuantidade alterada");
+                    } catch (Exception e) {
+                        System.out.println("O código não localizado.\nTente novamente.");
+                    }
                     option = true;
                     break;
                 default:
@@ -62,7 +105,6 @@ public class Menu {
                     break;
             }
         }
-
         sc.close();
         return num;
     }
